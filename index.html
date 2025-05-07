@@ -204,6 +204,22 @@
             opacity: 1;
             transform: translateY(0);
         }
+@media (max-width: 1024px) {
+            .carousel-controls {
+                bottom: 15%;
+                left: 5%; /* Original left position */
+            }
+        }
+
+        @media (max-width: 640px) {
+            .carousel-controls {
+                bottom: 10%;
+                left: auto; /* Reset left positioning */
+                right: 5%; /* New right position */
+                gap: 0.5rem;
+                justify-content: flex-end; /* Align buttons to right */
+            }
+        }
     </style>
 </head>
 <body>
