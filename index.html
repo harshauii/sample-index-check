@@ -106,10 +106,17 @@
         .carousel-controls {
             position: absolute;
             bottom: 8%;
-            left: 8%;
+            right: 8%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 24px;
+            z-index: 3;
+        }
+
+        .controls-group {
             display: flex;
             gap: 1rem;
-            z-index: 3;
         }
 
         .control-button {
@@ -128,12 +135,10 @@
         }
 
         .pagination {
-            position: absolute;
-            bottom: 8%;
-            right: 8%;
             display: flex;
             gap: 1rem;
-            z-index: 3;
+            position: relative;
+            right: 28px; /* Perfect centering offset */
         }
 
         .pagination-dot {
@@ -164,12 +169,11 @@
             
             .carousel-controls {
                 bottom: 15%;
-                left: 5%;
+                right: 5%;
             }
             
             .pagination {
-                bottom: 15%;
-                right: 5%;
+                right: 24px; /* Adjusted offset */
             }
         }
 
@@ -187,7 +191,8 @@
             
             .carousel-controls {
                 bottom: 10%;
-                gap: 0.5rem;
+                right: 5%;
+                gap: 20px;
             }
             
             .control-button {
@@ -196,29 +201,13 @@
             }
             
             .pagination {
-                bottom: 10%;
+                right: 20px; /* Mobile offset */
             }
         }
 
         .carousel-slide.active .slide-content {
             opacity: 1;
             transform: translateY(0);
-        }
-@media (max-width: 1024px) {
-            .carousel-controls {
-                bottom: 15%;
-                left: 5%; /* Original left position */
-            }
-        }
-
-        @media (max-width: 640px) {
-            .carousel-controls {
-                bottom: 10%;
-                left: auto; /* Reset left positioning */
-                right: 5%; /* New right position */
-                gap: 0.5rem;
-                justify-content: flex-end; /* Align buttons to right */
-            }
         }
     </style>
 </head>
@@ -247,8 +236,8 @@
             <!-- Slide 2 -->
             <div class="carousel-slide">
                 <picture>
-                    <source media="(max-width: 640px)" srcset="mobile-2.jpg">
-                    <source media="(min-width: 641px)" srcset="desktop-2.jpg">
+                    <source media="(max-width: 640px)" srcset="mobile.png">
+                    <source media="(min-width: 641px)" srcset="desktop.png">
                     <img src="fallback-2.jpg" alt="Sustainability" class="slide-media" loading="lazy" decoding="async">
                 </picture>
                 <div class="slide-content">
@@ -265,21 +254,22 @@
         </div>
 
         <div class="carousel-controls">
-            <button class="control-button prev" aria-label="Previous slide">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M15 18l-6-6 6-6"/>
-                </svg>
-            </button>
-            <button class="control-button next" aria-label="Next slide">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M9 18l6-6-6-6"/>
-                </svg>
-            </button>
-        </div>
-
-        <div class="pagination">
-            <div class="pagination-dot active" aria-label="Slide 1"></div>
-            <div class="pagination-dot" aria-label="Slide 2"></div>
+            <div class="controls-group">
+                <button class="control-button prev" aria-label="Previous slide">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                </button>
+                <button class="control-button next" aria-label="Next slide">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="pagination">
+                <div class="pagination-dot active" aria-label="Slide 1"></div>
+                <div class="pagination-dot" aria-label="Slide 2"></div>
+            </div>
         </div>
     </div>
 
@@ -318,7 +308,6 @@
                     dot.addEventListener('click', () => this.goToSlide(index));
                 });
 
-                // Touch events
                 let touchStartX = 0;
                 this.DOM.container.addEventListener('touchstart', e => {
                     touchStartX = e.touches[0].clientX;
@@ -332,7 +321,6 @@
                     }
                 });
 
-                // Keyboard navigation
                 document.addEventListener('keydown', e => {
                     if (e.key === 'ArrowLeft') this.prevSlide();
                     if (e.key === 'ArrowRight') this.nextSlide();
